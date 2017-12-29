@@ -10,8 +10,7 @@ public class ArrowMove : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        Debug.Log("GG");
-        Debug.Log("G1121G");
+        //Debug.Log("GG");        
     }
 	
 	// Update is called once per frame
@@ -29,17 +28,32 @@ public class ArrowMove : MonoBehaviour {
         Debug.Log("Crush");
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("GG");
+        Debug.Log("strike");
 
-        foreach (ContactPoint contact in collision.contacts)
+        if (collision.gameObject.tag == "Stone")
         {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-            Debug.Log("GG");
+            Debug.Log("Ground strike");
+            Destroy(this.gameObject);
         }
-
-        
+                
     }
 
 }
+//void OnCollisionEnter(Collision collision)
+//{
+//    Debug.Log("strike");
+
+//    if (collision.gameObject.tag == "Ground")
+//    {
+//        Debug.Log("Ground");
+//    }
+
+//    foreach (ContactPoint contact in collision.contacts)
+//    {
+//        Debug.DrawRay(contact.point, contact.normal, Color.white);            
+//    }
+
+
+//}

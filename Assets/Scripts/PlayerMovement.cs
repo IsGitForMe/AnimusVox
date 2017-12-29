@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,11 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     GameObject Arrow;
 
+    [SerializeField]
+    private uint reload = 2;
+
+    int tickBegin = 0;
+    
     // Use this for initialization
     void Start ()
     {
@@ -38,7 +44,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.Log("Fail");
         }
-        
+
+        tickBegin = Environment.TickCount;
     }
 	
     private bool IsOnTheGround()
@@ -53,7 +60,8 @@ public class PlayerMovement : MonoBehaviour {
     
 	// Update is called once per frame
 	void Update ()
-    {
+    {               
+        
         bool hit = Input.GetKeyDown(KeyCode.Mouse0);
 
         if (hit)
@@ -80,9 +88,15 @@ public class PlayerMovement : MonoBehaviour {
 
         bool shot = Input.GetKeyDown(KeyCode.T);
 
-        if (shot)
+        if ((shot))
         {
-            Instantiate(Arrow,transform.position,Quaternion.identity);
+            int tickUpdate = Environment.TickCount;
+
+            if (tickUpdate - tickBegin > reload*1000)
+            {
+                Instantiate(Arrow, transform.position, Quaternion.identity);
+                tickBegin = tickUpdate;
+            }
         }
     }
 }
