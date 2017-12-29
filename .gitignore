@@ -265,9 +265,9 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
-/src/LeapUnityTest/*.csproj
-/src/LeapUnityTest/*.sln
-/src/LeapUnityTest/Library/
-/src/LeapUnityTest/Temp/
-/src/LeapUnityTest/*.sln
+/AnimusVoxCL/Library*.csproj
+/AnimusVoxCL/Library*.sln
+/AnimusVoxCL/Library/Library/
+/AnimusVoxCL/Library/Temp/
+/AnimusVoxCL/Library*.sln
 

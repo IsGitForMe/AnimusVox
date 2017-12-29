@@ -10,7 +10,7 @@ public class ArrowMove : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-		
+        Debug.Log("GG");
 	}
 	
 	// Update is called once per frame
