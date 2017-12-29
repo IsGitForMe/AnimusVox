@@ -271,3 +271,16 @@ __pycache__/
 /AnimusVoxCL/Library/Temp/
 /AnimusVoxCL/Library*.sln
 
+D:/programUN/AnimusVoxCL/Library
+
+[Bb]uild/
+Library/
+Temp/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+!*.meta
+*.csproj
+*.sln

@@ -11,7 +11,8 @@ public class ArrowMove : MonoBehaviour {
 	void Start ()
     {
         Debug.Log("GG");
-	}
+        Debug.Log("G1121G");
+    }
 	
 	// Update is called once per frame
 	void Update ()
