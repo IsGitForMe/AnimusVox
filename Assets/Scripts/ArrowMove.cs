@@ -30,7 +30,7 @@ public class ArrowMove : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("strike");
+        //Debug.Log("strike");
 
         if (collision.gameObject.tag == "Stone")
         {

@@ -25,10 +25,17 @@ public class PlayerMovement : MonoBehaviour {
     private uint reload = 2;
 
     int tickBegin = 0;
+
+    [SerializeField]
+    private uint ArrowMaxCount = 10;
+
+    uint arrowCount = 0;
     
     // Use this for initialization
     void Start ()
     {
+        arrowCount = ArrowMaxCount;
+
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         
         Lefthand = GameObject.FindGameObjectWithTag("Hand");
@@ -88,16 +95,31 @@ public class PlayerMovement : MonoBehaviour {
 
         bool shot = Input.GetKeyDown(KeyCode.T);
 
-        if ((shot))
+        if ((shot)&&(arrowCount > 0))
         {
+
             int tickUpdate = Environment.TickCount;
 
             if (tickUpdate - tickBegin > reload*1000)
             {
                 Instantiate(Arrow, transform.position, Quaternion.identity);
                 tickBegin = tickUpdate;
+                arrowCount--;
+                Debug.Log(arrowCount);
             }
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        if (collision.gameObject.tag == "Quiver")
+        {
+            Debug.Log("Arrows picked");
+            arrowCount = ArrowMaxCount;
+            Destroy(collision.gameObject);
+        }
+
     }
 }
 
