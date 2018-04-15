@@ -29,7 +29,12 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     private uint ArrowMaxCount = 10;
 
+    [SerializeField]
+    GameObject ArrowCountText;
+
     uint arrowCount = 0;
+
+    private bool _facing = true;
     
     // Use this for initialization
     void Start ()
@@ -64,59 +69,99 @@ public class PlayerMovement : MonoBehaviour {
     {
 
     }
-    
-	// Update is called once per frame
-	void Update ()
-    {               
-        
+
+    private void Flip()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x = -scale.x;
+        transform.localScale = scale;
+    }
+
+    private void ViewDirection(float h)
+    {
+        bool lastFacing = _facing;
+        //lastFacing = _facing;
+
+        if (h > 0)
+        {
+            _facing = true;
+        }
+        else if (h == 0)
+        {
+
+        }
+        else
+        {
+            _facing = false;
+        }
+
+
+        if (_facing != lastFacing)
+        {
+            Flip();
+        }
+    }
+
+    private void JumpHandler()
+    {
+        bool jump = Input.GetKeyDown(KeyCode.Space);
+
+        if ((jump) && grounded)
+        {
+            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpSpeed);
+        }
+    }
+
+    private void ShotHandler()
+    {
+        bool shot = Input.GetKeyDown(KeyCode.T);
+
+        if ((shot) && (arrowCount > 0))
+        {
+
+            int tickUpdate = Environment.TickCount;
+
+            if (tickUpdate - tickBegin > reload * 1000)
+            {
+                Instantiate(Arrow, transform.position, Quaternion.identity);
+                tickBegin = tickUpdate;
+                arrowCount--;
+                ArrowCountText.GetComponent<GuiArrowCount>().ShowArrowCountText(arrowCount);
+
+                Debug.Log(arrowCount);
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update ()
+    {
         bool hit = Input.GetKeyDown(KeyCode.Mouse0);
 
         if (hit)
         {
             Lefthand.gameObject.transform.Rotate(new Vector3(0, 0, 90));
         }
-
         gameObject.transform.localEulerAngles = new Vector3(0, 0, 0);
 
         grounded = IsOnTheGround();
 
         float h = Input.GetAxis("Horizontal");
-        //if (grounded)
-        //{
-            gameObject.transform.position = new Vector2(gameObject.transform.position.x + (h * speed / 100), gameObject.transform.position.y);
-        //}
-
-        bool jump = Input.GetKeyDown(KeyCode.Space);
+        ViewDirection(h);
         
-        if ((jump)&&grounded)
-        {
-            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,jumpSpeed);
-        }
+        gameObject.transform.position = new Vector2(gameObject.transform.position.x + (h * speed / 100), gameObject.transform.position.y);
 
-        bool shot = Input.GetKeyDown(KeyCode.T);
-
-        if ((shot)&&(arrowCount > 0))
-        {
-
-            int tickUpdate = Environment.TickCount;
-
-            if (tickUpdate - tickBegin > reload*1000)
-            {
-                Instantiate(Arrow, transform.position, Quaternion.identity);
-                tickBegin = tickUpdate;
-                arrowCount--;
-                Debug.Log(arrowCount);
-            }
-        }
+        JumpHandler();
+        ShotHandler();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if (collision.gameObject.tag == "Quiver")
         {
             Debug.Log("Arrows picked");
             arrowCount = ArrowMaxCount;
+            ArrowCountText.GetComponent<GuiArrowCount>().ShowArrowCountText(arrowCount);
             Destroy(collision.gameObject);
         }
 

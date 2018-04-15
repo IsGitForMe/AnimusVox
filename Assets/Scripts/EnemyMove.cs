@@ -23,6 +23,9 @@ public class EnemyMove : MonoBehaviour {
     [SerializeField]
     GameObject explosion;
 
+    [SerializeField]
+    GameObject Quiver;
+
     // Use this for initialization
     void Start ()
     {
@@ -30,6 +33,13 @@ public class EnemyMove : MonoBehaviour {
         realHitPoints = MaxHitPoints;
     }
 	
+    private void Flip()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x = -scale.x;
+        transform.localScale = scale;
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -38,9 +48,11 @@ public class EnemyMove : MonoBehaviour {
             if ((transform.position.x < EndPozition.x))
             {
                 transform.position = transform.position + new Vector3(0.001f * Speed, 0, 0);
+                
             }
             else
             {
+                Flip();
                 forward = false;
             }
         }
@@ -52,6 +64,7 @@ public class EnemyMove : MonoBehaviour {
             }
             else
             {
+                Flip();
                 forward = true;
             }
         }
@@ -59,7 +72,10 @@ public class EnemyMove : MonoBehaviour {
 
         
     }
-
+    /// <summary>
+    /// funtion of death
+    /// </summary>
+    /// <param name="collision"></param>
     void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("strike");
@@ -76,7 +92,13 @@ public class EnemyMove : MonoBehaviour {
                 {
                     Instantiate(explosion, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                     Debug.Log("Death");
-                }                
+                }
+                GameObject qiv = Instantiate(Quiver, transform.position, Quaternion.identity);
+                qiv.tag = "Quiver";
+                Debug.Log("LR "+qiv.transform.localEulerAngles);
+                var locRotation = qiv.transform.localEulerAngles;
+                locRotation.z = 180;
+                qiv.transform.localEulerAngles = locRotation;
                 Destroy(gameObject);
             }
         }

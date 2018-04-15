@@ -46,10 +46,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\EnemyMove.cs" />
      <Compile Include="Assets\Scripts\ArrowMove.cs" />
      <Compile Include="Assets\Scripts\CloudMove.cs" />
+     <Compile Include="Assets\Scripts\EnemyMove.cs" />
+     <Compile Include="Assets\Scripts\ExitButtonClick.cs" />
+     <Compile Include="Assets\Scripts\GuiArrowCount.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\PlayerVision.cs" />
+     <Compile Include="Assets\Scripts\UserActions.cs" />
+     <None Include="Assets\External\Users.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Games/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
