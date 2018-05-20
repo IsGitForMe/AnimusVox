@@ -9,14 +9,12 @@ public class GuiArrowCount : MonoBehaviour {
 	void Start ()
     {
 		
-	}
-	
+	}	
 	// Update is called once per frame
 	void Update ()
     {
 		
 	}
-
     public void ShowArrowCountText(uint arrowCount)
     {
         gameObject.GetComponent<UnityEngine.UI.Text>().text = "Arrows "+arrowCount;

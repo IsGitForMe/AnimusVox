@@ -18,6 +18,19 @@ public class UserActions : MonoBehaviour
 
     private string path = @"D:\programUN\AnimusVoxCL\Assets\External\Users.txt";
 
+    private bool SymbolExistance(string pass,int start,int end)
+    {
+        for (int i = 0; i < pass.Length; i++)
+        {
+            if (pass[i] < end && pass[i] > start)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 	// Use this for initialization
 	void Start ()
     {
@@ -61,7 +74,12 @@ public class UserActions : MonoBehaviour
         }
         else
         {
-            //PasswordCorrect(txtPass);
+            if (!PasswordCorrect(txtPass))
+            {
+                textAlarm.text = "Password might have both lower AND upper letters, any symbol and number";
+                return;
+            }
+
             textAlarm.text = " User registred you can enter the game";
             File.AppendAllText(path, "\r\n"+txtLogin +" "+txtPass);                        
         }
@@ -72,16 +90,14 @@ public class UserActions : MonoBehaviour
         bool upperExists = false;
         bool numbsExists = false;
         bool symbolExists = false;
+        bool lowerExists = false;
 
-        for (int i = 0;i < pass.Length; i++)
-        {
-            if ((pass[i] < 91)&&(pass[i] > 64))
-            {
-                upperExists = true;
-            }
-        }
-
-        if ((upperExists) && (numbsExists) && (symbolExists))
+        upperExists = SymbolExistance(pass, 64, 91);
+        numbsExists = SymbolExistance(pass, 47, 58);
+        symbolExists = SymbolExistance(pass, 32, 48);
+        lowerExists = SymbolExistance(pass, 96, 123);
+        
+        if ((upperExists) && (numbsExists) && (symbolExists) && (lowerExists))
         {
             return true;
         }
@@ -90,9 +106,7 @@ public class UserActions : MonoBehaviour
             return false;
         }
     }
-
     
-
     public void LogIn()
     {
         string txtLogin = textLogin.text;
@@ -113,7 +127,7 @@ public class UserActions : MonoBehaviour
                 textAlarm.text = "User not found or uncorrect password\n        Please register or try again";
             }
         }
-
+        
         Debug.Log(textLogin.text + " " + textPassword.text);
         //string login = ;
     }
